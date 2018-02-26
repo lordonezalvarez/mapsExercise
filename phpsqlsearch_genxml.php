@@ -1,9 +1,13 @@
 <?php  
 require("phpsqlsearch_dbinfo.php");
+$all = false;
 // Get parameters from URL
 $center_lat = $_GET["lat"];
 $center_lng = $_GET["lng"];
 $radius = $_GET["radius"];
+if ($center_lat == '') {
+  $all = true;
+}
 // Start XML file, create parent node
 $dom = new DOMDocument("1.0");
 $node = $dom->createElement("markers");
@@ -19,11 +23,15 @@ if (!$db_selected) {
   die ("Can\'t use db : " . mysql_error());
 }
 // Search the rows in the markers table
-$query = sprintf("SELECT address, name, lat, lng, ( 3959 * acos( cos( radians('%s') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians('%s') ) + sin( radians('%s') ) * sin( radians( lat ) ) ) ) AS distance FROM markers HAVING distance < '%s' ORDER BY distance LIMIT 0 , 20",
-  mysql_real_escape_string($center_lat),
-  mysql_real_escape_string($center_lng),
-  mysql_real_escape_string($center_lat),
-  mysql_real_escape_string($radius));
+if ($all == false) {
+  $query = sprintf("SELECT address, name, lat, lng, ( 3959 * acos( cos( radians('%s') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians('%s') ) + sin( radians('%s') ) * sin( radians( lat ) ) ) ) AS distance FROM markers HAVING distance < '%s' ORDER BY distance LIMIT 0 , 20",
+    mysql_real_escape_string($center_lat),
+    mysql_real_escape_string($center_lng),
+    mysql_real_escape_string($center_lat),
+    mysql_real_escape_string($radius));
+} else {
+  $query = sprintf("SELECT address, name, lat, lng FROM markers");
+}
 $result = mysql_query($query);
 if (!$result) {
   die("Invalid query: " . mysql_error());
