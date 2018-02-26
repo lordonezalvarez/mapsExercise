@@ -28,6 +28,7 @@ $result = mysql_query($query);
 if (!$result) {
   die("Invalid query: " . mysql_error());
 }
+echo $result;
 header("Content-type: text/xml");
 // Iterate through the rows, adding XML nodes for each
 while ($row = @mysql_fetch_assoc($result)){
