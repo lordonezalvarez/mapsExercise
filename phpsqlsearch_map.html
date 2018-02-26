@@ -113,13 +113,7 @@
       var marker = new google.maps.Marker({
         map: map,
         position: latlng,
-        icon: {
-          scale: 10, //tamaño
-          strokeColor: '#f00', //color del borde
-          strokeWeight: 5, //grosor del borde
-          fillColor: 'blue', //color de relleno
-          fillOpacity:1// opacidad del relleno
-        }
+        icon: 'https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&psize=16&font=fonts/color=ff333333'
       });
       google.maps.event.addListener(marker, 'click', function() {
         infoWindow.setContent(html);
