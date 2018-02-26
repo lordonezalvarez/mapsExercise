@@ -3,4 +3,4 @@ api_version: 1
 
 handlers:
 - url: /.*
-  script: phpsqlsearch_map.html
+  script: phpsqlsearch_genxml.php
