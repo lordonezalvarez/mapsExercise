@@ -64,7 +64,7 @@
    function searchLocationsNear(center) {
      clearLocations();
      var radius = document.getElementById('radiusSelect').value;
-     if (center != 'undefined') {
+     if (center != undefined) {
         var searchUrl = 'phpsqlsearch_genxml.php?lat=' + center.lat() + '&lng=' + center.lng() + '&radius=' + radius;
      } else {
         var searchUrl = 'phpsqlsearch_genxml.php';  
