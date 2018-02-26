@@ -81,7 +81,6 @@
          var latlng = new google.maps.LatLng(
               parseFloat(markerNodes[i].getAttribute("lat")),
               parseFloat(markerNodes[i].getAttribute("lng")));
-         createOption(name, distance, i);
          var realDistance = "0 km";
          var realDuration = "0 minutos";
          var dm_service = new google.maps.DistanceMatrixService();
@@ -95,10 +94,11 @@
              var element = response.rows[0].elements[0];
              realDistance = element.distance.text;
              realDuration = element.duration.text;
+             createOption(name, distance, i);
              createMarker(latlng, name, address, realDistance, realDuration);
+             bounds.extend(latlng);
            }
-         });
-         bounds.extend(latlng);
+         });      
        }
        map.fitBounds(bounds);
        locationSelect.style.visibility = "visible";
