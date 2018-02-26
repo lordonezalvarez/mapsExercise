@@ -1,5 +1,5 @@
 <?
 $username="root";
 $password="root";
-$database="/cloudsql/ip-trabajo-lordonez:maps-exercise";
+$database=":/cloudsql/ip-trabajo-lordonez:maps-exercise";
 ?>
