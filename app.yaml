@@ -4,14 +4,3 @@ api_version: 1
 handlers:
 - url: /.*
   script: phpsqlsearch_genxml.php
-
-env_variables:
-# change these values as appropriate:
- DEVELOPMENT_DB_HOST: 'localhost'
- DEVELOPMENT_DB_USERNAME: 'root'
- DEVELOPMENT_DB_PASSWORD: 'root'
- DEVELOPMENT_DB_NAME: 'maps-exercise'
- PRODUCTION_CLOUD_SQL_INSTANCE: '/cloudsql/ip-trabajo-lordonez:maps-exercise'
- PRODUCTION_DB_USERNAME: 'root'
- PRODUCTION_DB_PASSWORD: 'root'
- PRODUCTION_DB_NAME: 'maps-exercise'
