@@ -113,7 +113,7 @@
       var marker = new google.maps.Marker({
         map: map,
         position: latlng,
-        color: blue
+        icon : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
       });
       google.maps.event.addListener(marker, 'click', function() {
         infoWindow.setContent(html);
