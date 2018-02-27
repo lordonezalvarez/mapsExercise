@@ -85,7 +85,7 @@
 		 if (center != undefined) {			  
 			destinations.push(latlng);
 		 } else {
-			createOption(name, distance, j);
+			createOption(name, distance, i);
             createMarker(latlng, name, address);
             bounds.extend(latlng);
             map.fitBounds(bounds);
