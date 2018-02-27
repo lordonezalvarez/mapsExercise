@@ -69,10 +69,10 @@
      var radius = document.getElementById('radiusSelect').value;
      if (center != undefined) {
         var searchUrl = 'phpsqlsearch_genxml.php?lat=' + center.lat() + '&lng=' + center.lng() + '&radius=' + radius;
+	centerInicial = center;
      } else {
         var searchUrl = 'phpsqlsearch_genxml.php';  
      }
-     centerInicial = center;
      downloadUrl(searchUrl, function(data) {
        var xml = parseXml(data);
        var markerNodes = xml.documentElement.getElementsByTagName("marker");
