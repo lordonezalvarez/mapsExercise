@@ -111,14 +111,14 @@
                 createMarker(latlng, name, address, realDistance, realDuration);
                 bounds.extend(latlng);
                 map.fitBounds(bounds);
+				locationSelect.style.visibility = "visible";
+				locationSelect.onchange = function() {
+				var markerNum = locationSelect.options[locationSelect.selectedIndex].value;
+					google.maps.event.trigger(markers[markerNum], 'click');
+				};
               }
            }
-       });             
-       locationSelect.style.visibility = "visible";
-       locationSelect.onchange = function() {
-         var markerNum = locationSelect.options[locationSelect.selectedIndex].value;
-         google.maps.event.trigger(markers[markerNum], 'click');
-       };
+       });                  
       });
     }
 
