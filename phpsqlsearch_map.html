@@ -12,7 +12,6 @@
     var markers = [];
     var infoWindow;
     var locationSelect;
-    var centerInicial;
 
     function load() {
       map = new google.maps.Map(document.getElementById("map"), {
@@ -30,7 +29,6 @@
           google.maps.event.trigger(markers[markerNum], 'click');
         }
       };
-      centerInicial = new google.maps.LatLng(40.131899, -99.893227);
    }
 
    function searchAll() {
@@ -69,7 +67,6 @@
      var radius = document.getElementById('radiusSelect').value;
      if (center != undefined) {
         var searchUrl = 'phpsqlsearch_genxml.php?lat=' + center.lat() + '&lng=' + center.lng() + '&radius=' + radius;
-	centerInicial = center;
      } else {
         var searchUrl = 'phpsqlsearch_genxml.php';  
      }
@@ -84,19 +81,32 @@
          var distance = parseFloat(markerNodes[i].getAttribute("distance"));
          var latlng = new google.maps.LatLng(
               parseFloat(markerNodes[i].getAttribute("lat")),
-              parseFloat(markerNodes[i].getAttribute("lng")));    
-         destinations.push(latlng);
+              parseFloat(markerNodes[i].getAttribute("lng")));  
+		 if (center != undefined) {			  
+			destinations.push(latlng);
+		 } else {
+			createOption(name, distance, j);
+            createMarker(latlng, name, address);
+            bounds.extend(latlng);
+            map.fitBounds(bounds);
+			locationSelect.style.visibility = "visible";
+			locationSelect.onchange = function() {
+			var markerNum = locationSelect.options[locationSelect.selectedIndex].value;
+				google.maps.event.trigger(markers[markerNum], 'click');
+			};
+		 }
        }
-       var realDistance = "0 km";
-       var realDuration = "0 minutos";
-       var results;
-       var dm_service = new google.maps.DistanceMatrixService();
-       dm_service.getDistanceMatrix({
-          origins : [centerInicial],
+	   if (center != undefined) {
+		var realDistance = "0 km";
+		var realDuration = "0 minutos";
+		var results;
+		var dm_service = new google.maps.DistanceMatrixService();
+		dm_service.getDistanceMatrix({
+          origins : [center],
           destinations: destinations,
           travelMode: google.maps.TravelMode.DRIVING,
           unitSystem: google.maps.UnitSystem.METRIC,
-       }, function (response, status){
+		}, function (response, status){
           if (status == google.maps.DistanceMatrixStatus.OK) {
              results = response.rows[0].elements;
              
@@ -121,12 +131,17 @@
 				};
               }
            }
-       });                  
+		});  
+       }	   
       });
     }
 
     function createMarker(latlng, name, address, distance, duration) {
-      var html = "<b>" + name + "</b> <br/>" + address + "<br/>" + distance + "  " + duration;
+		if (distance != undefined && duration != undefined) {
+			var html = "<b>" + name + "</b> <br/>" + address + "<br/>" + distance + "  " + duration;
+		} else {
+			var html = "<b>" + name + "</b> <br/>" + address;
+		}
       var marker = new google.maps.Marker({
         map: map,
         position: latlng
