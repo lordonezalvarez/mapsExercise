@@ -301,7 +301,8 @@
 	var request={
 		origin : centerAddress,
 		destination : destino,
-		travelMode:google.maps.TravelMode.DRIVING
+		travelMode:google.maps.TravelMode.DRIVING,
+		unitSystem: google.maps.UnitSystem.METRIC
 	};
 	directionsService.route(request,function(result,status){
 		if(status==google.maps.DirectionsStatus.OK){
