@@ -92,7 +92,7 @@
        var results;
        var dm_service = new google.maps.DistanceMatrixService();
        dm_service.getDistanceMatrix({
-          origins : [center],
+          origins : [centerInicial],
           destinations: destinations,
           travelMode: google.maps.TravelMode.DRIVING,
           unitSystem: google.maps.UnitSystem.METRIC,
