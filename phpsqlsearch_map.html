@@ -12,6 +12,7 @@
     var markers = [];
     var infoWindow;
     var locationSelect;
+    var centerInicial;
 
     function load() {
       map = new google.maps.Map(document.getElementById("map"), {
@@ -29,6 +30,7 @@
           google.maps.event.trigger(markers[markerNum], 'click');
         }
       };
+      centerInicial = center;
    }
 
    function searchAll() {
@@ -70,6 +72,7 @@
      } else {
         var searchUrl = 'phpsqlsearch_genxml.php';  
      }
+     centerInicial = center;
      downloadUrl(searchUrl, function(data) {
        var xml = parseXml(data);
        var markerNodes = xml.documentElement.getElementsByTagName("marker");
