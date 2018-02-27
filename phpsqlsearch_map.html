@@ -74,31 +74,42 @@
        var xml = parseXml(data);
        var markerNodes = xml.documentElement.getElementsByTagName("marker");
        var bounds = new google.maps.LatLngBounds();
+       var destinations = [];
        for (var i = 0; i < markerNodes.length; i++) {
          var name = markerNodes[i].getAttribute("name");
          var address = markerNodes[i].getAttribute("address");
          var distance = parseFloat(markerNodes[i].getAttribute("distance"));
          var latlng = new google.maps.LatLng(
               parseFloat(markerNodes[i].getAttribute("lat")),
-              parseFloat(markerNodes[i].getAttribute("lng")));
-         var realDistance = "0 km";
-         var realDuration = "0 minutos";
-         var dm_service = new google.maps.DistanceMatrixService();
-         dm_service.getDistanceMatrix({
-           origins : [center],
-           destinations: [latlng],
-           travelMode: google.maps.TravelMode.DRIVING,
-           unitSystem: google.maps.UnitSystem.METRIC,
-         }, function (response, status){
-           if (status == google.maps.DistanceMatrixStatus.OK) {
-             var element = response.rows[0].elements[0];
-             realDistance = element.distance.text;
-             realDuration = element.duration.text;
-             createOption(name, distance, i);
-             createMarker(latlng, name, address, realDistance, realDuration);
-             bounds.extend(latlng);
+              parseFloat(markerNodes[i].getAttribute("lng")));    
+         destinations.push(latlng);
+       }
+       var realDistance = "0 km";
+       var realDuration = "0 minutos";
+       var row;
+       var dm_service = new google.maps.DistanceMatrixService();
+       dm_service.getDistanceMatrix({
+          origins : [center],
+          destinations: destinations,
+          travelMode: google.maps.TravelMode.DRIVING,
+          unitSystem: google.maps.UnitSystem.METRIC,
+       }, function (response, status){
+          if (status == google.maps.DistanceMatrixStatus.OK) {
+             row = response.rows[0];
            }
-         });      
+       }); 
+       for (var j = 0; j < markerNodes.length; j++) {
+          var name = markerNodes[j].getAttribute("name");
+          var address = markerNodes[j].getAttribute("address");
+          var distance = parseFloat(markerNodes[j].getAttribute("distance"));
+          var latlng = new google.maps.LatLng(
+              parseFloat(markerNodes[j].getAttribute("lat")),
+              parseFloat(markerNodes[j].getAttribute("lng")));  
+          realDistance = row.elements[j].distance.text;
+          realDuration = row.elements[j].duration.text;
+          createOption(name, distance, j);
+          createMarker(latlng, name, address, realDistance, realDuration);
+          bounds.extend(latlng);
        }
        map.fitBounds(bounds);
        locationSelect.style.visibility = "visible";
