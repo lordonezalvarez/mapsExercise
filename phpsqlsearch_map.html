@@ -115,6 +115,11 @@
       };
       directionsService = new google.maps.DirectionsService();
       directionsDisplay = new google.maps.DirectionsRenderer();
+	    
+      var input = document.getElementById('addressInput');
+      var autocomplete=new google.maps.places.Autocomplete(input);
+      autocomplete.bindTo('bounds',map);
+	
    }
 
    function searchAll() {
