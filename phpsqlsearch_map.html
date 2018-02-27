@@ -86,7 +86,7 @@
        }
        var realDistance = "0 km";
        var realDuration = "0 minutos";
-       var row;
+       var results;
        var dm_service = new google.maps.DistanceMatrixService();
        dm_service.getDistanceMatrix({
           origins : [center],
@@ -95,7 +95,7 @@
           unitSystem: google.maps.UnitSystem.METRIC,
        }, function (response, status){
           if (status == google.maps.DistanceMatrixStatus.OK) {
-             row = response.rows[0];
+             results = response.rows[0].elements;
            }
        }); 
        for (var j = 0; j < markerNodes.length; j++) {
@@ -105,8 +105,9 @@
           var latlng = new google.maps.LatLng(
               parseFloat(markerNodes[j].getAttribute("lat")),
               parseFloat(markerNodes[j].getAttribute("lng")));  
-          realDistance = row.elements[j].distance.text;
-          realDuration = row.elements[j].duration.text;
+          var element = results[j];
+          realDistance = element.distance.text;
+          realDuration = element.duration.text;
           createOption(name, distance, j);
           createMarker(latlng, name, address, realDistance, realDuration);
           bounds.extend(latlng);
